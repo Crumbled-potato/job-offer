@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jobsys.work.mapper.ApplyJobMapper">
+
+    <resultMap type="ApplyJob" id="ApplyJobResult">
+        <result property="jobId" column="job_id"/>
+        <result property="jobState" column="job_state"/>
+        <result property="jobName" column="job_name"/>
+        <result property="jobSalary" column="job_salary"/>
+        <result property="jobReq" column="job_req"/>
+        <result property="jobDetail" column="job_detail"/>
+        <result property="education" column="education"/>
+        <result property="expYear" column="exp_year"/>
+        <result property="jobSite" column="job_site"/>
+        <result property="userId" column="user_id"/>
+        <result property="comId" column="com_id"/>
+        <result property="creatTime" column="creat_time"/>
+        <result property="creatBy" column="creat_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="isDelete" column="is_delete"/>
+        <result property="likeSum" column="like_sum"/>
+        <result property="jobType" column="job_type"/>
+        <association property="company" column="com_id" fetchType="lazy"
+                     select="com.jobsys.work.mapper.CompanyMapper.selectCompanyByComId">
+            <result property="comId" column="com_id"/>
+        </association>
+    </resultMap>
+
+    <resultMap type="ApplyJob" id="ApplyJobResultNo">
+        <result property="jobId" column="job_id"/>
+        <result property="jobState" column="job_state"/>
+        <result property="jobName" column="job_name"/>
+        <result property="jobSalary" column="job_salary"/>
+        <result property="jobReq" column="job_req"/>
+        <result property="jobDetail" column="job_detail"/>
+        <result property="education" column="education"/>
+        <result property="expYear" column="exp_year"/>
+        <result property="jobSite" column="job_site"/>
+        <result property="userId" column="user_id"/>
+        <result property="comId" column="com_id"/>
+        <result property="creatTime" column="creat_time"/>
+        <result property="creatBy" column="creat_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="isDelete" column="is_delete"/>
+        <result property="likeSum" column="like_sum"/>
+        <result property="jobType" column="job_type"/>
+    </resultMap>
+
+
+    <sql id="selectApplyJobVo">
+        select job_id,
+               job_state,
+               job_name,
+               job_salary,
+               job_req,
+               job_detail,
+               education,
+               exp_year,
+               job_site,
+               user_id,
+               com_id,
+               creat_time,
+               creat_by,
+               update_time,
+               update_by,
+               is_delete,
+               like_sum,
+               job_type
+        from apply_job
+    </sql>
+
+    <select id="selectApplyJobList" parameterType="ApplyJob" resultMap="ApplyJobResult">
+        <include refid="selectApplyJobVo"/>
+        <where>
+            <if test="jobState != null  and jobState != ''">and job_state = #{jobState}</if>
+            <if test="jobName != null  and jobName != ''">and job_name like concat('%', #{jobName}, '%')</if>
+            <if test="jobSalary != null  and jobSalary != ''">and job_salary = #{jobSalary}</if>
+            <if test="jobReq != null  and jobReq != ''">and job_req = #{jobReq}</if>
+            <if test="jobDetail != null  and jobDetail != ''">and job_detail = #{jobDetail}</if>
+            <if test="education != null  and education != ''">and education = #{education}</if>
+            <if test="expYear != null  and expYear != ''">and exp_year = #{expYear}</if>
+            <if test="jobSite != null  and jobSite != ''">and job_site = #{jobSite}</if>
+            <if test="userId != null ">and user_id = #{userId}</if>
+            <if test="comId != null ">and com_id = #{comId}</if>
+            <if test="creatTime != null ">and creat_time = #{creatTime}</if>
+            <if test="creatBy != null  and creatBy != ''">and creat_by = #{creatBy}</if>
+            <if test="isDelete != null  and isDelete != ''">and is_delete = #{isDelete}</if>
+            <if test="jobType != null  ">and job_type = #{jobType}</if>
+        </where>
+    </select>
+
+
+    <select id="selectByComId" parameterType="Long" resultMap="ApplyJobResultNo">
+        <include refid="selectApplyJobVo"/>
+        where com_id = #{comId}
+    </select>
+
+
+    <!--List<ApplyJob> listOrderBy();-->
+    <select id="listOrderBy" resultMap="ApplyJobResult">
+        <include refid="selectApplyJobVo"/>
+        <where>
+            job_state = 1
+            <if test="jobName != null  and jobName != ''">and job_name like concat('%', #{jobName}, '%')</if>
+            <if test="jobType != null  and jobType != ''">and job_type = #{jobType}</if>
+        </where>
+        order by creat_time limit 9
+    </select>
+
+
+    <select id="selectApplyJobByJobId" parameterType="Long" resultMap="ApplyJobResult">
+        <include refid="selectApplyJobVo"/>
+        where job_id = #{jobId}
+    </select>
+
+    <insert id="insertApplyJob" parameterType="ApplyJob" useGeneratedKeys="true" keyProperty="jobId">
+        insert into apply_job
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="jobState != null and jobState != ''">job_state,</if>
+            <if test="jobName != null and jobName != ''">job_name,</if>
+            <if test="jobSalary != null and jobSalary != ''">job_salary,</if>
+            <if test="jobReq != null and jobReq != ''">job_req,</if>
+            <if test="jobDetail != null and jobDetail != ''">job_detail,</if>
+            <if test="education != null and education != ''">education,</if>
+            <if test="expYear != null and expYear != ''">exp_year,</if>
+            <if test="jobSite != null and jobSite != ''">job_site,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="comId != null">com_id,</if>
+            <if test="creatBy != null">creat_by,</if>
+            <if test="jobType != null">job_type,</if>
+            creat_time
+
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="jobState != null and jobState != ''">#{jobState},</if>
+            <if test="jobName != null and jobName != ''">#{jobName},</if>
+            <if test="jobSalary != null and jobSalary != ''">#{jobSalary},</if>
+            <if test="jobReq != null and jobReq != ''">#{jobReq},</if>
+            <if test="jobDetail != null and jobDetail != ''">#{jobDetail},</if>
+            <if test="education != null and education != ''">#{education},</if>
+            <if test="expYear != null and expYear != ''">#{expYear},</if>
+            <if test="jobSite != null and jobSite != ''">#{jobSite},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="comId != null">#{comId},</if>
+            <if test="creatBy != null">#{creatBy},</if>
+            <if test="jobType != null">#{jobType},</if>
+            now()
+
+        </trim>
+    </insert>
+
+    <update id="updateApplyJob" parameterType="ApplyJob">
+        update apply_job
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="jobState != null and jobState != ''">job_state = #{jobState},</if>
+            <if test="jobName != null and jobName != ''">job_name = #{jobName},</if>
+            <if test="jobSalary != null and jobSalary != ''">job_salary = #{jobSalary},</if>
+            <if test="jobReq != null and jobReq != ''">job_req = #{jobReq},</if>
+            <if test="jobDetail != null and jobDetail != ''">job_detail = #{jobDetail},</if>
+            <if test="education != null and education != ''">education = #{education},</if>
+            <if test="expYear != null and expYear != ''">exp_year = #{expYear},</if>
+            <if test="jobSite != null and jobSite != ''">job_site = #{jobSite},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="comId != null">com_id = #{comId},</if>
+            <if test="creatTime != null">creat_time = #{creatTime},</if>
+            <if test="creatBy != null">creat_by = #{creatBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="isDelete != null">is_delete = #{isDelete},</if>
+            <if test="jobType != null">job_type = #{jobType},</if>
+        </trim>
+        where job_id = #{jobId}
+    </update>
+
+    <delete id="deleteApplyJobByJobId" parameterType="Long">
+        delete
+        from apply_job
+        where job_id = #{jobId}
+    </delete>
+
+    <delete id="deleteApplyJobByJobIds" parameterType="String">
+        delete from apply_job where job_id in
+        <foreach item="jobId" collection="array" open="(" separator="," close=")">
+            #{jobId}
+        </foreach>
+    </delete>
+
+
+    <!--int changeState(@Param("jobId") Long jobId, @Param("state") String state);-->
+
+    <update id="changeState">
+        update apply_job
+        set job_state = #{state}
+        where job_id = #{jobId}
+    </update>
+
+    <update id="changeLikeSum">
+        update apply_job
+        set like_sum = like_sum + #{likeSum}
+        where job_id = #{jobId}
+    </update>
+
+
+</mapper>

@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jobsys.work.mapper.CompanyMapper">
+
+    <resultMap type="Company" id="CompanyResult">
+        <result property="comId" column="com_id"/>
+        <result property="comName" column="com_name"/>
+        <result property="comImg" column="com_img"/>
+        <result property="comInfo" column="com_info"/>
+        <result property="comType" column="com_type"/>
+        <result property="isMarket" column="is_market"/>
+        <result property="comTel" column="com_tel"/>
+        <result property="comScale" column="com_scale"/>
+        <result property="workTime" column="work_time"/>
+        <result property="province" column="province"/>
+        <result property="property" column="property"/>
+        <result property="district" column="district"/>
+        <result property="address" column="address"/>
+        <result property="isDelete" column="is_delete"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="userId" column="user_id"/>
+        <collection property="applyJobList" column="com_id" ofType="ApplyJob" fetchType="lazy"
+                    select="com.jobsys.work.mapper.ApplyJobMapper.selectByComId">
+            <result property="comId" column="com_id" jdbcType="VARCHAR"/>
+        </collection>
+    </resultMap>
+
+
+    <resultMap type="Company" id="CompanyResultNo">
+        <result property="comId" column="com_id"/>
+        <result property="comName" column="com_name"/>
+        <result property="comImg" column="com_img"/>
+        <result property="comInfo" column="com_info"/>
+        <result property="comType" column="com_type"/>
+        <result property="isMarket" column="is_market"/>
+        <result property="comTel" column="com_tel"/>
+        <result property="comScale" column="com_scale"/>
+        <result property="workTime" column="work_time"/>
+        <result property="province" column="province"/>
+        <result property="property" column="property"/>
+        <result property="district" column="district"/>
+        <result property="address" column="address"/>
+        <result property="isDelete" column="is_delete"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="userId" column="user_id"/>
+    </resultMap>
+
+
+    <sql id="selectCompanyVo">
+        select com_id,
+               com_name,
+               com_img,
+               com_info,
+               com_type,
+               is_market,
+               com_tel,
+               com_scale,
+               work_time,
+               province,
+               property,
+               district,
+               address,
+               is_delete,
+               create_by,
+               create_time,
+               update_by,
+               update_time,
+               user_id
+        from company
+    </sql>
+
+    <select id="selectCompanyList" parameterType="Company" resultMap="CompanyResult">
+        <include refid="selectCompanyVo"/>
+        <where>
+            <if test="comName != null  and comName != ''">and com_name like concat('%', #{comName}, '%')</if>
+            <if test="userId != null  and userId != ''">and user_id = #{userId}</if>
+        </where>
+    </select>
+
+
+    <!-- List<Company> listByType(String type);-->
+    <select id="listByType" parameterType="Company" resultMap="CompanyResult">
+        <include refid="selectCompanyVo"/>
+        where com_type = #{type}
+        order by create_time limit 9
+    </select>
+
+
+    <select id="selectCompanyByComId" parameterType="Long" resultMap="CompanyResultNo">
+        <include refid="selectCompanyVo"/>
+        where com_id = #{comId}
+    </select>
+
+    <insert id="insertCompany" parameterType="Company" useGeneratedKeys="true" keyProperty="comId">
+        insert into company
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="comName != null and comName != ''">com_name,</if>
+            <if test="comImg != null and comImg != ''">com_img,</if>
+            <if test="comInfo != null and comInfo != ''">com_info,</if>
+            <if test="comType != null and comType != ''">com_type,</if>
+            <if test="isMarket != null and isMarket != ''">is_market,</if>
+            <if test="comTel != null and comTel != ''">com_tel,</if>
+            <if test="comScale != null and comScale != ''">com_scale,</if>
+            <if test="workTime != null">work_time,</if>
+            <if test="province != null and province != ''">province,</if>
+            <if test="property != null and property != ''">property,</if>
+            <if test="district != null and district != ''">district,</if>
+            <if test="address != null and address != ''">address,</if>
+            <if test="isDelete != null">is_delete,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="userId != null">user_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="comName != null and comName != ''">#{comName},</if>
+            <if test="comImg != null and comImg != ''">#{comImg},</if>
+            <if test="comInfo != null and comInfo != ''">#{comInfo},</if>
+            <if test="comType != null and comType != ''">#{comType},</if>
+            <if test="isMarket != null and isMarket != ''">#{isMarket},</if>
+            <if test="comTel != null and comTel != ''">#{comTel},</if>
+            <if test="comScale != null and comScale != ''">#{comScale},</if>
+            <if test="workTime != null">#{workTime},</if>
+            <if test="province != null and province != ''">#{province},</if>
+            <if test="property != null and property != ''">#{property},</if>
+            <if test="district != null and district != ''">#{district},</if>
+            <if test="address != null and address != ''">#{address},</if>
+            <if test="isDelete != null">#{isDelete},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="userId != null">#{userId},</if>
+        </trim>
+    </insert>
+
+    <update id="updateCompany" parameterType="Company">
+        update company
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="comName != null and comName != ''">com_name = #{comName},</if>
+            <if test="comImg != null and comImg != ''">com_img = #{comImg},</if>
+            <if test="comInfo != null and comInfo != ''">com_info = #{comInfo},</if>
+            <if test="comType != null and comType != ''">com_type = #{comType},</if>
+            <if test="isMarket != null and isMarket != ''">is_market = #{isMarket},</if>
+            <if test="comTel != null and comTel != ''">com_tel = #{comTel},</if>
+            <if test="comScale != null and comScale != ''">com_scale = #{comScale},</if>
+            <if test="workTime != null">work_time = #{workTime},</if>
+            <if test="province != null and province != ''">province = #{province},</if>
+            <if test="property != null and property != ''">property = #{property},</if>
+            <if test="district != null and district != ''">district = #{district},</if>
+            <if test="address != null and address != ''">address = #{address},</if>
+            <if test="isDelete != null ">is_delete = #{isDelete},</if>
+            <if test="createBy != null ">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="updateBy != null ">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="userId != null and userId != ''">user_id = #{userId},</if>
+        </trim>
+        where com_id = #{comId}
+    </update>
+
+    <delete id="deleteCompanyByComId" parameterType="Long">
+        delete
+        from company
+        where com_id = #{comId}
+    </delete>
+
+    <delete id="deleteCompanyByComIds" parameterType="String">
+        delete from company where com_id in
+        <foreach item="comId" collection="array" open="(" separator="," close=")">
+            #{comId}
+        </foreach>
+    </delete>
+</mapper>

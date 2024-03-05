@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jobsys.work.mapper.UserMsgMapper">
+
+    <resultMap type="UserMsg" id="UserMsgResult">
+        <result property="msgId" column="msg_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="isRead" column="is_read"/>
+        <result property="msgContent" column="msg_content"/>
+        <result property="createTime" column="create_time"/>
+        <result property="createBy" column="create_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="updateBy" column="update_by"/>
+    </resultMap>
+
+    <sql id="selectUserMsgVo">
+        select msg_id,
+               user_id,
+               is_read,
+               msg_content,
+               create_time,
+               create_by,
+               update_time,
+               update_by
+        from user_msg
+    </sql>
+
+    <!--int getUnReadSum(Long userId);-->
+    <select id="getUnReadSum" resultType="int" parameterType="Long">
+        select count(1)
+        FROM user_msg
+        where user_id = 1
+          and is_read = 2;
+    </select>
+
+
+    <select id="selectUserMsgList" parameterType="UserMsg" resultMap="UserMsgResult">
+        <include refid="selectUserMsgVo"/>
+        <where>
+            <if test="userId != null ">and user_id = #{userId}</if>
+            <if test="isRead != null  and isRead != ''">and is_read = #{isRead}</if>
+            <if test="msgContent != null  and msgContent != ''">and msg_content = #{msgContent}</if>
+        </where>
+        order by create_time DESC
+    </select>
+
+    <select id="selectUserMsgByMsgId" parameterType="Integer" resultMap="UserMsgResult">
+        <include refid="selectUserMsgVo"/>
+        where msg_id = #{msgId}
+    </select>
+
+    <insert id="insertUserMsg" parameterType="UserMsg" useGeneratedKeys="true" keyProperty="msgId">
+        insert into user_msg
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">user_id,</if>
+            <if test="isRead != null">is_read,</if>
+            <if test="msgContent != null">msg_content,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateBy != null">update_by,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">#{userId},</if>
+            <if test="isRead != null">#{isRead},</if>
+            <if test="msgContent != null">#{msgContent},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+        </trim>
+    </insert>
+
+    <update id="updateUserMsg" parameterType="UserMsg">
+        update user_msg
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="isRead != null">is_read = #{isRead},</if>
+            <if test="msgContent != null">msg_content = #{msgContent},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+        </trim>
+        where msg_id = #{msgId}
+    </update>
+
+    <delete id="deleteUserMsgByMsgId" parameterType="Integer">
+        delete
+        from user_msg
+        where msg_id = #{msgId}
+    </delete>
+
+    <delete id="deleteUserMsgByMsgIds" parameterType="String">
+        delete from user_msg where msg_id in
+        <foreach item="msgId" collection="array" open="(" separator="," close=")">
+            #{msgId}
+        </foreach>
+    </delete>
+</mapper>

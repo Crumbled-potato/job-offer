@@ -1,0 +1,16 @@
+/jobsys-auth/target/
+/jobsys-api/jobsys-api-system/target/
+/jobsys-common/jobsys-common-core/target/
+/logs/
+/jobsys-common/jobsys-common-datascope/target/
+/jobsys-common/jobsys-common-datasource/target/
+/jobsys-common/jobsys-common-log/target/
+/jobsys-common/jobsys-common-redis/target/
+/jobsys-common/jobsys-common-security/target/
+/jobsys-common/jobsys-common-swagger/target/
+/jobsys-gateway/target/
+/jobsys-modules/jobsys-modules-file/target/
+/jobsys-modules/jobsys-modules-gen/target/
+/jobsys-modules/jobsys-modules-job/target/
+/jobsys-modules/jobsys-modules-system/target/
+/jobsys-visual/jobsys-monitor/target/

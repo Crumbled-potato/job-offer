@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <parent>
+    <groupId>com.jobsys</groupId>
+    <artifactId>jobsys</artifactId>
+    <version>3.4.0</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+
+  <modules>
+    <module>jobsys-common-log</module>
+    <module>jobsys-common-core</module>
+    <module>jobsys-common-redis</module>
+    <module>jobsys-common-swagger</module>
+    <module>jobsys-common-security</module>
+    <module>jobsys-common-datascope</module>
+    <module>jobsys-common-datasource</module>
+  </modules>
+
+  <artifactId>jobsys-common</artifactId>
+  <packaging>pom</packaging>
+
+  <description>
+    jobsys-common通用模块
+  </description>
+
+</project>

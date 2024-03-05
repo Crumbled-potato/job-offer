@@ -1,0 +1,6 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.jobsys.common.security.config.WebMvcConfig,\
+  com.jobsys.common.security.service.TokenService,\
+  com.jobsys.common.security.aspect.PreAuthorizeAspect,\
+  com.jobsys.common.security.aspect.InnerAuthAspect,\
+  com.jobsys.common.security.handler.GlobalExceptionHandler

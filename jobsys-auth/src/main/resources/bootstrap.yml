@@ -1,0 +1,24 @@
+#互联网求职平台auth模块bootstrap.yml配置
+server: 
+  port: 9200 #端口号
+
+# Spring相关配置
+spring: 
+  application:
+    name: jobsys-auth  #子服务名称
+  profiles:
+    # 环境配置
+    active: dev
+  cloud:
+    nacos:
+      discovery:
+        # 服务注册地址
+        server-addr: 127.0.0.1:8848
+      config:
+        # 配置中心地址
+        server-addr: 127.0.0.1:8848
+        # 配置文件格式
+        file-extension: yml
+        # 共享配置
+        shared-configs:
+          - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}

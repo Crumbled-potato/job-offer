@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jobsys.work.mapper.BusinessMapper">
+
+    <resultMap type="Business" id="BusinessResult">
+        <result property="businessId" column="business_id"/>
+        <result property="legal" column="legal"/>
+        <result property="capital" column="capital"/>
+        <result property="setUpTime" column="set_up_time"/>
+        <result property="comType" column="com_type"/>
+        <result property="comState" column="com_state"/>
+        <result property="address" column="address"/>
+        <result property="comCode" column="com_code"/>
+        <result property="comScope" column="com_scope"/>
+        <result property="checkState" column="check_state"/>
+        <result property="createDate" column="create_date"/>
+        <result property="createBy" column="create_by"/>
+        <result property="updateDate" column="update_date"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="comId" column="com_id"/>
+    </resultMap>
+
+    <sql id="selectBusinessVo">
+        select business_id,
+               legal,
+               capital,
+               set_up_time,
+               com_type,
+               com_state,
+               address,
+               com_code,
+               com_scope,
+               check_state,
+               create_date,
+               create_by,
+               update_date,
+               update_by,
+               com_id
+        from business
+    </sql>
+
+    <select id="selectBusinessList" parameterType="Business" resultMap="BusinessResult">
+        <include refid="selectBusinessVo"/>
+        <where>
+            <if test="legal != null  and legal != ''">and legal = #{legal}</if>
+            <if test="capital != null  and capital != ''">and capital = #{capital}</if>
+            <if test="setUpTime != null ">and set_up_time = #{setUpTime}</if>
+            <if test="comType != null  and comType != ''">and com_type = #{comType}</if>
+            <if test="comState != null  and comState != ''">and com_state = #{comState}</if>
+            <if test="address != null  and address != ''">and address = #{address}</if>
+            <if test="comCode != null  and comCode != ''">and com_code = #{comCode}</if>
+            <if test="comScope != null  and comScope != ''">and com_scope = #{comScope}</if>
+            <if test="checkState != null  and checkState != ''">and check_state = #{checkState}</if>
+            <if test="createDate != null ">and create_date = #{createDate}</if>
+            <if test="updateDate != null ">and update_date = #{updateDate}</if>
+            <if test="comId != null ">and com_id = #{comId}</if>
+        </where>
+        order by create_date
+    </select>
+
+    <select id="selectBusinessByBusinessId" parameterType="Long" resultMap="BusinessResult">
+        <include refid="selectBusinessVo"/>
+        where business_id = #{businessId}
+    </select>
+
+    <insert id="insertBusiness" parameterType="Business" useGeneratedKeys="true" keyProperty="businessId">
+        insert into business
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="legal != null">legal,</if>
+            <if test="capital != null">capital,</if>
+            <if test="setUpTime != null">set_up_time,</if>
+            <if test="comType != null">com_type,</if>
+            <if test="comState != null">com_state,</if>
+            <if test="address != null">address,</if>
+            <if test="comCode != null">com_code,</if>
+            <if test="comScope != null">com_scope,</if>
+            <if test="checkState != null">check_state,</if>
+            <if test="createDate != null">create_date,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateDate != null">update_date,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="comId != null">com_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="legal != null">#{legal},</if>
+            <if test="capital != null">#{capital},</if>
+            <if test="setUpTime != null">#{setUpTime},</if>
+            <if test="comType != null">#{comType},</if>
+            <if test="comState != null">#{comState},</if>
+            <if test="address != null">#{address},</if>
+            <if test="comCode != null">#{comCode},</if>
+            <if test="comScope != null">#{comScope},</if>
+            <if test="checkState != null">#{checkState},</if>
+            <if test="createDate != null">#{createDate},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateDate != null">#{updateDate},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="comId != null">#{comId},</if>
+        </trim>
+    </insert>
+
+    <update id="updateBusiness" parameterType="Business">
+        update business
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="legal != null">legal = #{legal},</if>
+            <if test="capital != null">capital = #{capital},</if>
+            <if test="setUpTime != null">set_up_time = #{setUpTime},</if>
+            <if test="comType != null">com_type = #{comType},</if>
+            <if test="comState != null">com_state = #{comState},</if>
+            <if test="address != null">address = #{address},</if>
+            <if test="comCode != null">com_code = #{comCode},</if>
+            <if test="comScope != null">com_scope = #{comScope},</if>
+            <if test="checkState != null">check_state = #{checkState},</if>
+            <if test="createDate != null">create_date = #{createDate},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateDate != null">update_date = #{updateDate},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="comId != null">com_id = #{comId},</if>
+        </trim>
+        where business_id = #{businessId}
+    </update>
+
+    <delete id="deleteBusinessByBusinessId" parameterType="Long">
+        delete
+        from business
+        where business_id = #{businessId}
+    </delete>
+
+    <delete id="deleteBusinessByBusinessIds" parameterType="String">
+        delete from business where business_id in
+        <foreach item="businessId" collection="array" open="(" separator="," close=")">
+            #{businessId}
+        </foreach>
+    </delete>
+</mapper>

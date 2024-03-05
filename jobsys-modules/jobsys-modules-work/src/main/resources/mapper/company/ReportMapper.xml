@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jobsys.work.mapper.ReportMapper">
+
+    <resultMap type="Report" id="ReportResult">
+        <result property="reportId" column="report_id"/>
+        <result property="jobId" column="job_id"/>
+        <result property="jobName" column="job_name"/>
+        <result property="userName" column="user_name"/>
+        <result property="userDescribe" column="user_describe"/>
+        <result property="phone" column="phone"/>
+        <result property="type" column="type"/>
+        <result property="reason" column="reason"/>
+        <result property="createTime" column="create_time"/>
+        <result property="createBy" column="create_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="updateBy" column="update_by"/>
+    </resultMap>
+
+    <sql id="selectReportVo">
+        select report_id,
+               job_id,
+               job_name,
+               user_name,
+               user_describe,
+               phone,
+               type,
+               reason,
+               create_time,
+               create_by,
+               update_time,
+               update_by,
+               remark
+        from report
+    </sql>
+
+    <select id="selectReportList" parameterType="Report" resultMap="ReportResult">
+        <include refid="selectReportVo"/>
+        <where>
+            <if test="jobId != null ">and job_id = #{jobId}</if>
+            <if test="jobName != null  and jobName != ''">and job_name like concat('%', #{jobName}, '%')</if>
+            <if test="phone != null  and phone != ''">and phone = #{phone}</if>
+            <if test="type != null  and type != ''">and type = #{type}</if>
+            <if test="reason != null  and reason != ''">and reason = #{reason}</if>
+        </where>
+        order by create_time
+    </select>
+
+    <select id="selectReportByReportId" parameterType="Integer" resultMap="ReportResult">
+        <include refid="selectReportVo"/>
+        where report_id = #{reportId}
+    </select>
+
+    <insert id="insertReport" parameterType="Report" useGeneratedKeys="true" keyProperty="reportId">
+        insert into report
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="jobId != null">job_id,</if>
+            <if test="jobName != null">job_name,</if>
+            <if test="userName != null">user_name,</if>
+            <if test="userDescribe != null">user_describe,</if>
+            <if test="phone != null">phone,</if>
+            <if test="type != null">type,</if>
+            <if test="reason != null">reason,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateBy != null">update_by,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="jobId != null">#{jobId},</if>
+            <if test="jobName != null">#{jobName},</if>
+            <if test="userName != null">#{userName},</if>
+            <if test="userDescribe != null">#{userDescribe},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="type != null">#{type},</if>
+            <if test="reason != null">#{reason},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+        </trim>
+    </insert>
+
+    <update id="updateReport" parameterType="Report">
+        update report
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="jobId != null">job_id = #{jobId},</if>
+            <if test="jobName != null">job_name = #{jobName},</if>
+            <if test="userName != null">user_name = #{userName},</if>
+            <if test="userDescribe != null">userDescribe = #{describe},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="reason != null">reason = #{reason},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where report_id = #{reportId}
+    </update>
+
+    <delete id="deleteReportByReportId" parameterType="Integer">
+        delete
+        from report
+        where report_id = #{reportId}
+    </delete>
+
+    <delete id="deleteReportByReportIds" parameterType="String">
+        delete from report where report_id in
+        <foreach item="reportId" collection="array" open="(" separator="," close=")">
+            #{reportId}
+        </foreach>
+    </delete>
+</mapper>

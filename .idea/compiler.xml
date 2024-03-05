@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="jobsys-gateway" />
+        <module name="jobsys-visual-monitor" />
+        <module name="jobsys-modules-file" />
+        <module name="jobsys-api-system" />
+        <module name="jobsys-modules-gen" />
+        <module name="jobsys-common-datascope" />
+        <module name="jobsys-common-swagger" />
+        <module name="jobsys-common-log" />
+        <module name="jobsys-modules-system" />
+        <module name="jobsys-modules-work" />
+        <module name="jobsys-common-datasource" />
+        <module name="jobsys-common-redis" />
+        <module name="jobsys-modules-job" />
+        <module name="jobsys-common-core" />
+        <module name="jobsys-auth" />
+        <module name="jobsys-common-security" />
+      </profile>
+    </annotationProcessing>
+  </component>
+</project>

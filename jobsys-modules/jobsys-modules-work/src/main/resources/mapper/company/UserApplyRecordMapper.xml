@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jobsys.work.mapper.UserApplyRecordMapper">
+
+    <resultMap type="UserApplyRecord" id="UserApplyRecordResult">
+        <result property="recordId" column="record_id"/>
+        <result property="jobId" column="job_id"/>
+        <result property="jobName" column="job_name"/>
+        <result property="applyId" column="apply_id"/>
+        <result property="takeId" column="take_id"/>
+        <result property="type" column="type"/>
+        <result property="isReq" column="is_req"/>
+        <result property="isAgree" column="is_agree"/>
+        <result property="applyAddress" column="apply_address"/>
+        <result property="applyTime" column="apply_time"/>
+        <result property="createTime" column="create_time"/>
+        <result property="createBy" column="create_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="comName" column="com_name"/>
+        <result property="comId" column="com_id"/>
+        <result property="resumeId" column="resume_id"/>
+    </resultMap>
+
+    <sql id="selectUserApplyRecordVo">
+        select record_id,
+               resume_id,
+               job_id,
+               job_name,
+               apply_id,
+               take_id,
+               type,
+               is_req,
+               is_agree,
+               apply_address,
+               apply_time,
+               create_time,
+               create_by,
+               update_time,
+               update_by,
+               com_name,
+               com_id
+        from user_apply_record
+    </sql>
+
+    <select id="selectUserApplyRecordList" parameterType="UserApplyRecord" resultMap="UserApplyRecordResult">
+        <include refid="selectUserApplyRecordVo"/>
+        <where>
+            <if test="jobName != null  and jobName != ''">and job_name like concat('%', #{jobName}, '%')</if>
+            <if test="comName != null  and comName != ''">and com_name like concat('%', #{comName}, '%')</if>
+            <if test="comId != null ">and com_id = #{comId}</if>
+            <if test="applyId != null ">and apply_id = #{applyId}</if>
+            <if test="jobId != null ">and job_id = #{jobId}</if>
+            <if test="resumeId != null ">and resume_id = #{resumeId}</if>
+        </where>
+        order by create_time
+    </select>
+
+    <select id="selectUserApplyRecordByRecordId" parameterType="Integer" resultMap="UserApplyRecordResult">
+        <include refid="selectUserApplyRecordVo"/>
+        where record_id = #{recordId}
+    </select>
+
+    <insert id="insertUserApplyRecord" parameterType="UserApplyRecord" useGeneratedKeys="true" keyProperty="recordId">
+        insert into user_apply_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="jobId != null">job_id,</if>
+            <if test="jobName != null">job_name,</if>
+            <if test="applyId != null">apply_id,</if>
+            <if test="takeId != null">take_id,</if>
+            <if test="type != null">type,</if>
+            <if test="isReq != null">is_req,</if>
+            <if test="isAgree != null">is_agree,</if>
+            <if test="applyAddress != null">apply_address,</if>
+            <if test="applyTime != null">apply_time,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="comName != null">com_name,</if>
+            <if test="comId != null">com_id,</if>
+            <if test="resumeId != null">resume_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="jobId != null">#{jobId},</if>
+            <if test="jobName != null">#{jobName},</if>
+            <if test="applyId != null">#{applyId},</if>
+            <if test="takeId != null">#{takeId},</if>
+            <if test="type != null">#{type},</if>
+            <if test="isReq != null">#{isReq},</if>
+            <if test="isAgree != null">#{isAgree},</if>
+            <if test="applyAddress != null">#{applyAddress},</if>
+            <if test="applyTime != null">#{applyTime},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="comName != null">#{comName},</if>
+            <if test="comId != null">#{comId},</if>
+            <if test="resumeId != null">#{resumeId},</if>
+        </trim>
+    </insert>
+
+    <update id="updateUserApplyRecord" parameterType="UserApplyRecord">
+        update user_apply_record
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="jobId != null">job_id = #{jobId},</if>
+            <if test="jobName != null">job_name = #{jobName},</if>
+            <if test="applyId != null">apply_id = #{applyId},</if>
+            <if test="takeId != null">take_id = #{takeId},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="isReq != null">is_req = #{isReq},</if>
+            <if test="isAgree != null">is_agree = #{isAgree},</if>
+            <if test="applyAddress != null">apply_address = #{applyAddress},</if>
+            <if test="applyTime != null">apply_time = #{applyTime},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="comName != null">com_name = #{comName},</if>
+            <if test="comId != null">com_id = #{comId},</if>
+            <if test="resumeId != null">resume_id = #{resumeId},</if>
+        </trim>
+        where record_id = #{recordId}
+    </update>
+
+    <delete id="deleteUserApplyRecordByRecordId" parameterType="Integer">
+        delete
+        from user_apply_record
+        where record_id = #{recordId}
+    </delete>
+
+    <delete id="deleteUserApplyRecordByRecordIds" parameterType="String">
+        delete from user_apply_record where record_id in
+        <foreach item="recordId" collection="array" open="(" separator="," close=")">
+            #{recordId}
+        </foreach>
+    </delete>
+</mapper>

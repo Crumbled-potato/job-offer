@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jobsys.work.mapper.UserResumeMapper">
+
+    <resultMap type="UserResume" id="UserResumeResult">
+        <result property="resumeId" column="resume_id"/>
+        <result property="userName" column="user_name"/>
+        <result property="userId" column="user_id"/>
+        <result property="userPhone" column="user_phone"/>
+        <result property="resumeDetail" column="resume_detail"/>
+        <result property="userEmail" column="user_email"/>
+        <result property="userCity" column="user_city"/>
+        <result property="education" column="education"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="remark" column="remark"/>
+        <result property="userSex" column="user_sex"/>
+        <result property="userBirth" column="user_birth"/>
+        <result property="applyJob" column="apply_job"/>
+        <result property="applyType" column="apply_type"/>
+        <result property="resumeFile" column="resume_file"/>
+        <result property="major" column="major"/>
+        <result property="eduExp" column="edu_exp"/>
+        <result property="userImg" column="user_img"/>
+    </resultMap>
+
+    <sql id="selectUserResumeVo">
+        select resume_id,
+               user_name,
+               user_id,
+               user_phone,
+               resume_detail,
+               user_email,
+               user_city,
+               education,
+               create_by,
+               create_time,
+               update_time,
+               update_by,
+               remark,
+               user_sex,
+               user_birth,
+               apply_job,
+               apply_type,
+               resume_file,
+               major,
+               edu_exp,
+               user_img
+        from user_resume
+    </sql>
+
+    <select id="selectUserResumeList" parameterType="UserResume" resultMap="UserResumeResult">
+        <include refid="selectUserResumeVo"/>
+        <where>
+            <if test="userName != null  and userName != ''">and user_name like concat('%', #{userName}, '%')</if>
+            <if test="userId != null ">and user_id = #{userId}</if>
+            <if test="userPhone != null  and userPhone != ''">and user_phone = #{userPhone}</if>
+            <if test="resumeDetail != null  and resumeDetail != ''">and resume_detail = #{resumeDetail}</if>
+            <if test="userEmail != null  and userEmail != ''">and user_email = #{userEmail}</if>
+            <if test="userCity != null  and userCity != ''">and user_city = #{userCity}</if>
+            <if test="education != null  and education != ''">and education = #{education}</if>
+            <if test="userSex != null  and userSex != ''">and user_sex = #{userSex}</if>
+            <if test="userBirth != null  and userBirth != ''">and user_birth = #{userBirth}</if>
+            <if test="applyJob != null  and applyJob != ''">and apply_job = #{applyJob}</if>
+            <if test="applyType != null  and applyType != ''">and apply_type = #{applyType}</if>
+            <if test="resumeFile != null  and resumeFile != ''">and resume_file = #{resumeFile}</if>
+            <if test="major != null  and major != ''">and major = #{major}</if>
+            <if test="eduExp != null  and eduExp != ''">and edu_exp = #{eduExp}</if>
+            <if test="userImg != null  and userImg != ''">and user_img = #{userImg}</if>
+        </where>
+        order by create_time
+    </select>
+
+    <select id="selectUserResumeByResumeId" parameterType="Integer" resultMap="UserResumeResult">
+        <include refid="selectUserResumeVo"/>
+        where resume_id = #{resumeId}
+    </select>
+
+    <insert id="insertUserResume" parameterType="UserResume" useGeneratedKeys="true" keyProperty="resumeId">
+        insert into user_resume
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userName != null">user_name,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="userPhone != null">user_phone,</if>
+            <if test="resumeDetail != null">resume_detail,</if>
+            <if test="userEmail != null">user_email,</if>
+            <if test="userCity != null">user_city,</if>
+            <if test="education != null">education,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="remark != null">remark,</if>
+            <if test="userSex != null">user_sex,</if>
+            <if test="userBirth != null">user_birth,</if>
+            <if test="applyJob != null">apply_job,</if>
+            <if test="applyType != null">apply_type,</if>
+            <if test="resumeFile != null">resume_file,</if>
+            <if test="major != null">major,</if>
+            <if test="eduExp != null">edu_exp,</if>
+            <if test="userImg != null">user_img,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userName != null">#{userName},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="userPhone != null">#{userPhone},</if>
+            <if test="resumeDetail != null">#{resumeDetail},</if>
+            <if test="userEmail != null">#{userEmail},</if>
+            <if test="userCity != null">#{userCity},</if>
+            <if test="education != null">#{education},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="userSex != null">#{userSex},</if>
+            <if test="userBirth != null">#{userBirth},</if>
+            <if test="applyJob != null">#{applyJob},</if>
+            <if test="applyType != null">#{applyType},</if>
+            <if test="resumeFile != null">#{resumeFile},</if>
+            <if test="major != null">#{major},</if>
+            <if test="eduExp != null">#{eduExp},</if>
+            <if test="userImg != null">#{userImg},</if>
+        </trim>
+    </insert>
+
+    <update id="updateUserResume" parameterType="UserResume">
+        update user_resume
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userName != null">user_name = #{userName},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="userPhone != null">user_phone = #{userPhone},</if>
+            <if test="resumeDetail != null">resume_detail = #{resumeDetail},</if>
+            <if test="userEmail != null">user_email = #{userEmail},</if>
+            <if test="userCity != null">user_city = #{userCity},</if>
+            <if test="education != null">education = #{education},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="userSex != null">user_sex = #{userSex},</if>
+            <if test="userBirth != null">user_birth = #{userBirth},</if>
+            <if test="applyJob != null">apply_job = #{applyJob},</if>
+            <if test="applyType != null">apply_type = #{applyType},</if>
+            <if test="resumeFile != null">resume_file = #{resumeFile},</if>
+            <if test="major != null">major = #{major},</if>
+            <if test="eduExp != null">edu_exp = #{eduExp},</if>
+            <if test="userImg != null">user_img = #{userImg},</if>
+        </trim>
+        where resume_id = #{resumeId}
+    </update>
+
+    <delete id="deleteUserResumeByResumeId" parameterType="Integer">
+        delete
+        from user_resume
+        where resume_id = #{resumeId}
+    </delete>
+
+    <delete id="deleteUserResumeByResumeIds" parameterType="String">
+        delete from user_resume where resume_id in
+        <foreach item="resumeId" collection="array" open="(" separator="," close=")">
+            #{resumeId}
+        </foreach>
+    </delete>
+</mapper>
